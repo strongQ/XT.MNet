@@ -1,0 +1,12 @@
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.csproj.AssemblyReference.cache
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.GeneratedMSBuildEditorConfig.editorconfig
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.AssemblyInfoInputs.cache
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.AssemblyInfo.cs
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.csproj.CoreCompileInputs.cache
+E:\gogs\Net8\MM\MNet\bin\Debug\net8.0\XT.MNet.deps.json
+E:\gogs\Net8\MM\MNet\bin\Debug\net8.0\XT.MNet.dll
+E:\gogs\Net8\MM\MNet\bin\Debug\net8.0\XT.MNet.pdb
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.dll
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\refint\XT.MNet.dll
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\XT.MNet.pdb
+E:\gogs\Net8\MM\MNet\obj\Debug\net8.0\ref\XT.MNet.dll
