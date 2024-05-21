@@ -291,11 +291,18 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
         }
 
     }
-
+    ReadOnlySequence<byte> _store = ReadOnlySequence<byte>.Empty;
     private SequencePosition ParseFrame(ref ITcpFrame frame, ref ReadResult result)
     {
-
         var buffer = result.Buffer;
+
+
+        if (!_store.IsEmpty)
+        {
+            var combined = new ReadOnlySequence<byte>(_store.ToArray().Concat(buffer.ToArray()).ToArray());
+            buffer = combined;
+
+        }
 
         if (buffer.Length == 0)
         {
@@ -306,24 +313,31 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
         {
             if (Options.SpecialChar != null)
             {
-                // 查找消息的结束标志（例如 '#' 字符）
-                var messageEndPosition = buffer.PositionOf((byte)'#');
+                // 使用SequenceReader来处理buffer
+                SequenceReader<byte> reader = new SequenceReader<byte>(buffer);
 
-                // 如果找到了消息的结束标志
-                if (messageEndPosition != null)
+                // 查找特殊字符（例如'#'）
+                if (reader.TryAdvanceTo((byte)'#', advancePastDelimiter: true))
                 {
-                    // 读取到消息结束标志为止的数据
-                    var messageBuffer = buffer.Slice(0, messageEndPosition.Value);
-
-
                     // 处理消息
+                    var consumed = reader.Consumed;
+                    var messageBuffer = buffer.Slice(0, consumed);
                     EventEmitter.Emit(messageBuffer.FirstSpan);
 
 
+                    if (!_store.IsEmpty)
+                    {
+                        consumed = consumed - _store.Length;
+                        _store = ReadOnlySequence<byte>.Empty; // 清空_store
+                    }
 
-                    // 返回处理后的位置，即消息结束标志的下一个位置
-                    var location = buffer.GetPosition(1, messageEndPosition.Value);
-                    return location;
+                    // 返回消息结束后的位置
+                    return result.Buffer.GetPosition(consumed);
+                }
+                else
+                {
+                    // 如果没有找到特殊字符，则将buffer存储到_store中，以便下次处理
+                    _store = buffer;
                 }
             }
             else
@@ -343,7 +357,7 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
                 return endPosition;
             }
 
-           
+
 
         }
         else if (Options.Handshaker.Handshake(this, ref buffer, out var headerPosition))

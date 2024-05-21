@@ -8,7 +8,7 @@
     <readme>README.md</readme>
     <description>Simple and fast library for tcp server and client. Utilizes same techniques as internal kestrel servers to get best performance.</description>
     <copyright>Marvin Drude And Zhang</copyright>
-    <repository type="git" />
+    <repository type="git" commit="d59f3462bc2d72c94a9950367e519b187bb6f382" />
     <dependencies>
       <group targetFramework="net8.0">
         <dependency id="Microsoft.Extensions.Logging" version="8.0.0" exclude="Build,Analyzers" />
@@ -20,7 +20,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="E:\gogs\Net8\MM\MNet\bin\Debug\net8.0\XT.MNet.dll" target="lib\net8.0\XT.MNet.dll" />
-    <file src="E:\gogs\Net8\MM\MNet\README.md" target="\README.md" />
+    <file src="E:\github\XT.MNet\bin\Debug\net8.0\XT.MNet.dll" target="lib\net8.0\XT.MNet.dll" />
+    <file src="E:\github\XT.MNet\README.md" target="\README.md" />
   </files>
 </package>

@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Simple and fast library for tcp server and client. Utilizes same techniques as in" +
     "ternal kestrel servers to get best performance.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1+d59f3462bc2d72c94a9950367e519b187bb6f382")]
 [assembly: System.Reflection.AssemblyProductAttribute("XT.MNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("XT.MNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.1.0")]

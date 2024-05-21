@@ -607,11 +607,11 @@
   "project": {
     "version": "1.0.1",
     "restore": {
-      "projectUniqueName": "E:\\gogs\\Net8\\MM\\MNet\\XT.MNet.csproj",
+      "projectUniqueName": "E:\\github\\XT.MNet\\XT.MNet.csproj",
       "projectName": "XT.MNet",
-      "projectPath": "E:\\gogs\\Net8\\MM\\MNet\\XT.MNet.csproj",
+      "projectPath": "E:\\github\\XT.MNet\\XT.MNet.csproj",
       "packagesPath": "C:\\Users\\zq\\.nuget\\packages\\",
-      "outputPath": "E:\\gogs\\Net8\\MM\\MNet\\obj\\",
+      "outputPath": "E:\\github\\XT.MNet\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
