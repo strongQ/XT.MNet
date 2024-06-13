@@ -34,6 +34,8 @@ public class TcpOptions
     /// </summary>
     public  char? SpecialChar { get; set; }
 
+    public bool HasIdentity { get; set; }
+
     public required ushort Port { get; init; }
 
     public bool IsSecure { get; init; } = false;

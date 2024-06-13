@@ -69,7 +69,7 @@ public sealed class EventEmitter(ITcpSerializer serializer)
 
     }
 
-    public void Emit(ReadOnlySpan<byte> datas)
+    public void Emit(Memory<byte> datas)
     {
         _tcpEvent?.Invoke(datas);
     }
@@ -86,7 +86,7 @@ public sealed class EventEmitter(ITcpSerializer serializer)
 
     }
 
-    public void ServerEmit(ReadOnlySpan<byte> datas,TcpServerConnection connection)
+    public void ServerEmit(Memory<byte> datas,TcpServerConnection connection)
     {
         _serverTcpEvent?.Invoke(datas, connection);
     }
@@ -99,8 +99,8 @@ public delegate Task EventDelegateAsync(ITcpFrame frame);
 
 public delegate Task ServerEventDelegateAsync(ITcpFrame frame, TcpServerConnection connection);
 
-public delegate void ServerTcpEvent(ReadOnlySpan<byte> data,TcpServerConnection connection);
+public delegate void ServerTcpEvent(Memory<byte> data,TcpServerConnection connection);
 
-public delegate void TcpEvent(ReadOnlySpan<byte> data);
+public delegate void TcpEvent(Memory<byte> data);
 
 

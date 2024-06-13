@@ -253,16 +253,11 @@ public class TcpServer : TcpBase, IDisposable
 
                 var result = await connection.DuplexPipe.Input.ReadAsync(combinedToken.Token);
 
-                try
-                {
+              
                     var position = ParseFrame(connection, ref frame, ref result);
 
                     connection.DuplexPipe.Input.AdvanceTo(position);
-                }
-                catch (Exception ex)
-                {
-                    int a = 0;
-                }
+               
 
                 if (result.IsCanceled || result.IsCompleted)
                 {
@@ -356,15 +351,40 @@ public class TcpServer : TcpBase, IDisposable
 
 
     //}
-    ReadOnlySequence<byte> _store = ReadOnlySequence<byte>.Empty;
+    ConcurrentDictionary<string, ReadOnlyMemory<byte>> _storeDic = new ConcurrentDictionary<string, ReadOnlyMemory<byte>>();
+   
     private SequencePosition ParseFrame(TcpServerConnection connection, ref ITcpFrame frame, ref ReadResult result)
     {
+      
         var buffer = result.Buffer;
+
+        var _store = new ReadOnlyMemory<byte>();
+        if(!_storeDic.ContainsKey(connection.UniqueId))
+        {
+            _storeDic.TryAdd(connection.UniqueId, _store);
+        }
+        else
+        {
+            _store = _storeDic[connection.UniqueId];
+        }
 
         if (!_store.IsEmpty)
         {
-            var combined = new ReadOnlySequence<byte>(_store.ToArray().Concat(buffer.ToArray()).ToArray());
-            buffer = combined;
+            if (!buffer.IsEmpty)
+            {
+
+                ReadOnlyMemory<byte> bufferMemory = new ReadOnlyMemory<byte>(buffer.ToArray());
+
+                // 创建一个新的数组来存储合并后的数据
+                byte[] combinedArray = new byte[_store.Length + bufferMemory.Length];
+                _store.CopyTo(combinedArray);
+                bufferMemory.CopyTo(new Memory<byte>(combinedArray, _store.Length, bufferMemory.Length));
+
+                // 使用 ReadOnlyMemory<byte> 来代替 ReadOnlySequence<byte>
+                ReadOnlyMemory<byte> combinedMemory = new ReadOnlyMemory<byte>(combinedArray);
+                buffer = new ReadOnlySequence<byte>(combinedMemory);
+
+            }
 
         }
 
@@ -388,12 +408,14 @@ public class TcpServer : TcpBase, IDisposable
                     // 处理消息
                     var consumed = reader.Consumed;
                     var messageBuffer = buffer.Slice(0, consumed - 1);
-                    EventEmitter.ServerEmit(messageBuffer.FirstSpan, connection);
+                    EventEmitter.ServerEmit(new Memory<byte>( messageBuffer.FirstSpan.ToArray()), connection);
 
                     if (!_store.IsEmpty)
                     {
                         consumed = consumed - _store.Length;
-                        _store = ReadOnlySequence<byte>.Empty; // 清空_store
+
+                        _storeDic.TryUpdate(connection.UniqueId, new ReadOnlyMemory<byte>(), _store);
+                      
                     }
 
                     // 返回消息结束后的位置
@@ -402,8 +424,9 @@ public class TcpServer : TcpBase, IDisposable
                 }
                 else
                 {
-                    // 如果没有找到特殊字符，则将buffer存储到_store中，以便下次处理
-                    _store = buffer;
+                    // 如果没有找到特殊字符，则将buffer存储到_store中，以便下次处理                 
+                    _storeDic.TryUpdate(connection.UniqueId, new ReadOnlyMemory<byte>(buffer.ToArray()),_store);
+                    return result.Buffer.End;
                 }
             }
             else
@@ -434,17 +457,37 @@ public class TcpServer : TcpBase, IDisposable
 
     private SequencePosition ProcessMessage(TcpServerConnection connection, ref ITcpFrame frame, ref ReadOnlySequence<byte> buffer)
     {
-        var endPosition = frame.Read(ref buffer);
-
-        if (frame.Identifier != null)
+        SequencePosition endPosition;
+        if (Options.HasIdentity)
         {
+            endPosition = frame.Read(ref buffer);
 
-            EventEmitter.ServerEmit(frame.Identifier, frame, connection);
+            if (frame.Identifier != null)
+            {
 
-            frame.Dispose(); // just disposes internal variables, no need to worry
-            frame = Options.FrameFactory.Create();
+                EventEmitter.ServerEmit(frame.Identifier, frame,connection);
+                frame.Dispose(); // just disposes internal variables, no need to worry
+                frame = Options.FrameFactory.Create();
+
+
+            }
+        }
+
+        else
+        {
+            SequenceReader<byte> reader = new SequenceReader<byte>(buffer);
+            reader.AdvanceToEnd();
+            var consumed = reader.Consumed;
+            var messageBuffer = buffer.Slice(0, consumed);
+            EventEmitter.ServerEmit(new Memory<byte>(messageBuffer.FirstSpan.ToArray()),connection);
+
+
+
+            endPosition = buffer.GetPosition(consumed);
 
         }
+
+
         return endPosition;
     }
 

@@ -234,7 +234,7 @@ public sealed class TcpFrame : ITcpFrame
 
     }
 
-    private bool ReadLengthIdBuffer(ref SequenceReader<byte> reader, ref ReadOnlySequence<byte> buffer, out SequencePosition position, out int length)
+    public bool ReadLengthIdBuffer(ref SequenceReader<byte> reader, ref ReadOnlySequence<byte> buffer, out SequencePosition position, out int length)
     {
 
         Span<byte> span = stackalloc byte[4];

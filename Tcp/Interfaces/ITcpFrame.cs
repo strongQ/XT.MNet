@@ -25,6 +25,7 @@ public interface ITcpFrame : IDisposable
     /// </summary>
     public SequencePosition Read(ref ReadOnlySequence<byte> buffer);
 
+
     /// <summary>
     /// Buffer will be the size of <see cref="GetBinarySize"/>
     /// </summary>
