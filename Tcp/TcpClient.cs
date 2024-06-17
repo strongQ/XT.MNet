@@ -338,7 +338,7 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
                     // 处理消息
                     var consumed = reader.Consumed;
                     var messageBuffer = buffer.Slice(0, consumed-1);
-                    EventEmitter.Emit(new Memory<byte>(messageBuffer.FirstSpan.ToArray()));
+                    EventEmitter.Emit(new Memory<byte>(messageBuffer.ToArray()));
 
 
                     if (!_store.IsEmpty)
@@ -382,7 +382,7 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
                     reader.AdvanceToEnd();
                     var consumed = reader.Consumed;
                     var messageBuffer = buffer.Slice(0, consumed);
-                    EventEmitter.Emit(new Memory<byte>(messageBuffer.FirstSpan.ToArray()));
+                    EventEmitter.Emit(new Memory<byte>(messageBuffer.ToArray()));
 
 
                    

@@ -408,7 +408,7 @@ public class TcpServer : TcpBase, IDisposable
                     // 处理消息
                     var consumed = reader.Consumed;
                     var messageBuffer = buffer.Slice(0, consumed - 1);
-                    EventEmitter.ServerEmit(new Memory<byte>( messageBuffer.FirstSpan.ToArray()), connection);
+                    EventEmitter.ServerEmit(new Memory<byte>( messageBuffer.ToArray()), connection);
 
                     if (!_store.IsEmpty)
                     {
@@ -479,7 +479,7 @@ public class TcpServer : TcpBase, IDisposable
             reader.AdvanceToEnd();
             var consumed = reader.Consumed;
             var messageBuffer = buffer.Slice(0, consumed);
-            EventEmitter.ServerEmit(new Memory<byte>(messageBuffer.FirstSpan.ToArray()),connection);
+            EventEmitter.ServerEmit(new Memory<byte>(messageBuffer.ToArray()),connection);
 
 
 
