@@ -279,6 +279,7 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
             }
 
         }
+       
         catch (Exception ex)
         {
             Logger.LogInformation(ex.Message+ex.StackTrace);
@@ -287,6 +288,7 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
         {
 
             frame?.Dispose();
+            if(!token.IsCancellationRequested)
             await InternalDisconnect();
 
         }
