@@ -261,6 +261,7 @@ public class TcpServer : TcpBase, IDisposable
 
                 if (result.IsCanceled || result.IsCompleted)
                 {
+                    _storeDic.TryRemove(connection.UniqueId, out _);
                     break;
                 }
 
