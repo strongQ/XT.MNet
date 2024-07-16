@@ -1,4 +1,5 @@
-﻿using XT.MNet.Internal.Settings;
+﻿using System.IO.Pipelines;
+using XT.MNet.Internal.Settings;
 using XT.MNet.Tcp.Options;
 
 namespace XT.MNet.Internal.Factories;
