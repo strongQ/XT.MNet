@@ -156,7 +156,8 @@ public class TcpServer : TcpBase, IDisposable
 
             var connection = await Accept(token);
             if (connection == null) return;
-
+            InsertNewConnection(connection);
+            OnConnect?.Invoke(connection);
             Logger.LogDebug("{Source} New connection {identifier}", this, connection.UniqueId);
 
             var _ = DoReceive(connection, token);
@@ -439,10 +440,10 @@ public class TcpServer : TcpBase, IDisposable
         {
             // 握手逻辑...
             connection.IsHandshaked = true;
-            InsertNewConnection(connection);
+            //InsertNewConnection(connection);
 
             Logger.LogDebug("{Source} New connection handshaked {identifier}", this, connection.UniqueId);
-            OnConnect?.Invoke(connection);
+            //OnConnect?.Invoke(connection);
 
             return headerPosition;
         }
