@@ -4,7 +4,7 @@ namespace XT.MNet.Tcp.Options;
 
 public class TcpClientOptions : TcpOptions
 {
-
+ 
     /// <summary>
     /// Needed for secure authentication
     /// </summary>

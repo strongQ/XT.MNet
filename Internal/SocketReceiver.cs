@@ -1,9 +1,13 @@
 ﻿namespace XT.MNet.Internal;
 
-internal sealed class SocketReceiver(PipeScheduler ioScheduler)
-    : SocketAwaitableEventArgs(ioScheduler)
+internal sealed class SocketReceiver
+    : SocketAwaitableEventArgs
 {
 
+    public SocketReceiver(PipeScheduler ioScheduler):base(ioScheduler)
+    {
+
+    }
     public ValueTask<SocketOperationResult> WaitForDataAsync(Socket socket)
     {
 

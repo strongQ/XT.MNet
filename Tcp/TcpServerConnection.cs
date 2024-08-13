@@ -6,10 +6,10 @@ namespace XT.MNet.Tcp;
 public sealed class TcpServerConnection : IAsyncDisposable, ITcpSender
 {
 
-    public required Socket Socket { get; init; }
-    public required IDuplexPipe DuplexPipe { get; init; }
-    public required TcpServer Server { get; init; }
-    public required string UniqueId { get; set; }
+    public  Socket Socket { get; init; }
+    public  IDuplexPipe DuplexPipe { get; init; }
+    public  TcpServer Server { get; init; }
+    public  string UniqueId { get; set; }
     public Stream? Stream { get; init; }
     public bool IsHandshaked { get; set; } = false;
     public CancellationTokenSource DisconnectToken { get; private set; } = new CancellationTokenSource();

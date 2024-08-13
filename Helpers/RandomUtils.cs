@@ -25,7 +25,11 @@ public static class RandomUtils
     public static int Next(int min, int maxExclusive)
     {
 
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(min, maxExclusive);
+        if (min >= maxExclusive)
+        {
+            throw new ArgumentOutOfRangeException(nameof(min), $"The value of {nameof(min)} must be less than {nameof(maxExclusive)}.");
+        }
+
 
         long diff = (long)maxExclusive - min;
         long upperBound = uint.MaxValue / diff * diff;

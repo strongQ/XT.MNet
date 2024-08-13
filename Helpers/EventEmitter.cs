@@ -5,10 +5,10 @@ using XT.MNet.Tcp.Interfaces;
 
 namespace XT.MNet.Helpers;
 
-public sealed class EventEmitter(ITcpSerializer serializer)
+public sealed class EventEmitter
 {
 
-    private readonly ITcpSerializer _Serializer = serializer;
+    private readonly ITcpSerializer _Serializer;
 
     private readonly ConcurrentDictionary<string, EventDelegateAsync> _Handlers = new();
 
@@ -20,7 +20,10 @@ public sealed class EventEmitter(ITcpSerializer serializer)
 
     private  ServerTcpEvent _serverTcpEvent;
 
-
+    public EventEmitter(ITcpSerializer serializer)
+    {
+        _Serializer = serializer;
+    }
 
 
 

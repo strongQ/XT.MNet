@@ -1,15 +1,20 @@
 ﻿namespace XT.MNet.Internal;
 
-internal sealed class SocketSenderPool(PipeScheduler scheduler) : IDisposable
+internal sealed class SocketSenderPool : IDisposable
 {
 
     private const int MaxQueueSize = 1024 * 3;
 
-    public PipeScheduler Scheduler = scheduler;
+    public PipeScheduler Scheduler;
 
     private readonly ConcurrentQueue<SocketSender> Queue = new();
     private int Count;
     private bool Disposed;
+
+    public SocketSenderPool(PipeScheduler scheduler)
+    {
+        Scheduler = scheduler;
+    }
 
     public SocketSender Rent()
     {

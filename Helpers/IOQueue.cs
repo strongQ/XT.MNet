@@ -62,12 +62,18 @@ internal sealed class IOQueue : PipeScheduler, IThreadPoolWorkItem
 
     }
 
-    private readonly struct Work(Action<object?> callback, object? state)
-    {
+    private readonly struct Work
+    { 
 
-        public readonly Action<object?> Callback = callback;
+        public readonly Action<object?> Callback ;
 
-        public readonly object? State = state;
+        public readonly object? State;
+
+        public Work(Action<object?> callback, object? state)
+        {
+            Callback = callback;
+            State = state;
+        }
 
     }
 

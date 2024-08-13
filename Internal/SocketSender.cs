@@ -3,11 +3,17 @@ using XT.MNet.Extensions;
 
 namespace XT.MNet.Internal;
 
-internal sealed class SocketSender(PipeScheduler ioScheduler)
-    : SocketAwaitableEventArgs(ioScheduler)
+internal sealed class SocketSender
+    : SocketAwaitableEventArgs
 {
 
     private List<ArraySegment<byte>>? _BufferList;
+
+
+    public SocketSender(PipeScheduler ioScheduler):base(ioScheduler)
+    {
+
+    }
 
     public ValueTask<SocketOperationResult> SendAsync(Socket socket, in ReadOnlySequence<byte> buffers)
     {
@@ -82,7 +88,7 @@ internal sealed class SocketSender(PipeScheduler ioScheduler)
 
         if (_BufferList == null)
         {
-            _BufferList = [];
+            _BufferList = new List<ArraySegment<byte>>();
         }
 
         foreach (var b in buffer)

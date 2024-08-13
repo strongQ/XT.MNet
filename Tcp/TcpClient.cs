@@ -182,10 +182,34 @@ public class TcpClient : TcpBase, IAsyncDisposable, ITcpSender
 
         frame.IsRawOnly = true;
         frame.IsSending = true;
-
         frame.Data = payload;
         OutgoingFramesQueue.Writer.TryWrite(frame);
 
+    }
+    /// <summary>
+    /// Only use for string msg
+    /// </summary>
+    /// <param name="msg"></param>
+    public void Send(string msg)
+    {
+        var bytes = Encoding.UTF8.GetBytes(msg);
+
+        Send(bytes);
+    }
+    /// <summary>
+    /// Only For One Msg
+    /// </summary>
+    /// <param name="title"></param>
+    public void OnlyFor(string title)
+    {
+       
+        using var frame = Options.FrameFactory.Create(); // dispose is ok here for sending
+
+        frame.IsRawOnly = true;
+        frame.IsSending = true;
+        frame.Identifier=title;
+        frame.Data= Encoding.UTF8.GetBytes(title);
+        OutgoingFramesQueue.Writer.TryWrite(frame);
     }
 
     void ITcpSender.Send(ITcpFrame frame)

@@ -17,11 +17,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Marvin Drude And Zhang")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Simple and fast library for tcp server and client. Utilizes same techniques as in" +
     "ternal kestrel servers to get best performance.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+04f4a22b757e5958801ac004f030ef77b47a6155")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.6.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.6+a1f4c523219d366a42cf9407cd36a732ec706896")]
 [assembly: System.Reflection.AssemblyProductAttribute("XT.MNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("XT.MNet")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.4.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.6.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

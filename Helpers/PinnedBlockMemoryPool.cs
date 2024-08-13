@@ -19,8 +19,16 @@ internal sealed class PinnedBlockMemoryPool : MemoryPool<byte>
     public override IMemoryOwner<byte> Rent(int size = AnySize)
     {
 
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(size, _BlockSize, nameof(size));
-        ObjectDisposedException.ThrowIf(_IsDisposed, this);
+        if (size > _BlockSize)
+        {
+            throw new ArgumentOutOfRangeException(nameof(size), $"The value of {nameof(size)} cannot be greater than {_BlockSize}.");
+        }
+
+        if (_IsDisposed)
+        {
+            throw new ObjectDisposedException(this.GetType().FullName);
+        }
+
 
         if (_Blocks.TryDequeue(out var block))
         {

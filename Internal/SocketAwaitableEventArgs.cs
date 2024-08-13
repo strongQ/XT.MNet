@@ -1,14 +1,19 @@
 ﻿namespace XT.MNet.Internal;
 
-internal class SocketAwaitableEventArgs(PipeScheduler ioScheduler)
-        : SocketAsyncEventArgs(unsafeSuppressExecutionContextFlow: true), IValueTaskSource<SocketOperationResult>
+internal class SocketAwaitableEventArgs
+        : SocketAsyncEventArgs, IValueTaskSource<SocketOperationResult>
 {
 
     private static readonly Action<object?> _ContinuationCompleted = _ => { };
 
-    private readonly PipeScheduler _IoScheduler = ioScheduler;
+    private readonly PipeScheduler _IoScheduler;
 
     private Action<object?>? _Continuation;
+
+    public SocketAwaitableEventArgs(PipeScheduler ioScheduler):base(true)
+    {
+        _IoScheduler = ioScheduler;
+    }
 
     protected override void OnCompleted(SocketAsyncEventArgs _)
     {

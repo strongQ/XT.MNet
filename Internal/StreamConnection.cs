@@ -21,8 +21,16 @@ internal sealed class StreamConnection : IDuplexPipe
         writeOptions ??= PipeOptions.Default;
         readOptions ??= PipeOptions.Default;
 
-        ArgumentOutOfRangeException.ThrowIfEqual(stream.CanWrite, false);
-        ArgumentOutOfRangeException.ThrowIfEqual(stream.CanRead, false);
+        if (!stream.CanWrite)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stream.CanWrite), "The stream must be writable.");
+        }
+
+        if (!stream.CanRead)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stream.CanRead), "The stream must be readable.");
+        }
+
 
         _WritePipe = new Pipe(writeOptions);
         _ReadPipe = new Pipe(readOptions);

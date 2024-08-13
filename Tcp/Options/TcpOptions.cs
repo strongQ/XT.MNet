@@ -20,7 +20,7 @@ public class TcpOptions
             .MinimumLevel.Information()
             .CreateLogger();
 
-        DefaultLoggerFactory = new LoggerFactory([], new LoggerFilterOptions()
+        DefaultLoggerFactory = new LoggerFactory(new List<ILoggerProvider>(), new LoggerFilterOptions()
         {
             MinLevel = LogLevel.Information
         })
@@ -28,7 +28,7 @@ public class TcpOptions
 
     }
 
-    public required string Address { get; init; }
+    public  string Address { get; init; }
     /// <summary>
     /// 处理粘包的特殊字符
     /// </summary>
@@ -36,7 +36,7 @@ public class TcpOptions
 
     public bool HasIdentity { get; set; }
 
-    public required ushort Port { get; init; }
+    public  ushort Port { get; init; }
 
     public bool IsSecure { get; init; } = false;
 

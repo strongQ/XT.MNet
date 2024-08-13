@@ -40,7 +40,9 @@ public sealed class WsClientHandshaker : ITcpClientHandshaker
 
     }
 
-    private static readonly Memory<byte> Delimiter = "\r\n\r\n"u8.ToArray();
+    private static readonly Memory<byte> Delimiter = new Memory<byte>(new byte[] { 13, 10, 13, 10 });
+
+
 
     private static Memory<byte> HeaderBytes => Encoding.UTF8.GetBytes(
             "GET / HTTP/1.1" + NewLine

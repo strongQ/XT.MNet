@@ -57,7 +57,8 @@ public sealed partial class WsServerHandshaker : ITcpServerHandshaker
         // 服务器等待客户端的第一个请求
     }
 
-    private static readonly Memory<byte> Delimiter = "\r\n\r\n"u8.ToArray();
+    private static readonly Memory<byte> Delimiter = new Memory<byte>(new byte[] { 13, 10, 13, 10 });
+
 
     private static Memory<byte> GetHandshakeBody(string data)
     {
